@@ -10,35 +10,39 @@ using Microsoft.Xna.Framework.Input;
 
 namespace ShootingGame
 {
-    class enimie
+    public class Boats
     {
-        public Rectangle rec;
+        public Rectangle boundingBox;
         public Texture2D texture;
         public Vector2 position;
         public int speed;
-        public bool isCollide, destroyd;
+
+        public bool isVisible;
+        Random random = new Random();
+        public float randX, randY;
 
         //constructor
-        public enimie()
+        public Boats(Texture2D newTexture, Vector2 newPosition)
         {
-            position = new Vector2(400, -50);
-            texture = null;
+            position = newPosition;
+            texture = newTexture;
             speed = 4;
-            isCollide = false;
-            destroyd = false;
+            isVisible = true;
+            randX = random.Next(0, 550);
+            randY = random.Next(-600, -50);
         }
 
         //load content
         public void loadContent(ContentManager Content)
         {
-            texture = Content.Load<Texture2D>("boot");
+            
         }
 
         //update
         public void Update(GameTime gameTime)
         {
             //set collison
-            rec = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
+            boundingBox = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
 
             //update movement
             position.Y = position.Y + speed;
@@ -51,7 +55,7 @@ namespace ShootingGame
         //draw
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (!destroyd)
+            if (isVisible)
             {
                 spriteBatch.Draw(texture, position, Color.White);
             }

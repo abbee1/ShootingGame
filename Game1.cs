@@ -1,4 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -11,9 +16,18 @@ namespace ShootingGame
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        //random
+        Random random = new Random();
+        
+        // player
+        Player player = new Player();
+        public int enemyBulletDamage;
 
-        player player = new player();
-        enimie enimie = new enimie();
+        //lists
+        //list with boats
+        List<Boats> boatsList = new List<Boats>();
+        //list with enemy
+        List<Enemy> enemyList = new List<Enemy>();
 
         public Game1()
         {
@@ -23,6 +37,7 @@ namespace ShootingGame
             graphics.PreferredBackBufferWidth = 800;
             this.Window.Title = "Pirate shooting";
             Content.RootDirectory = "Content";
+            enemyBulletDamage = 10;
         }
 
         /// <summary>
@@ -48,7 +63,6 @@ namespace ShootingGame
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             player.LoadContent(Content);
-            enimie.loadContent(Content);
 
             // TODO: use this.Content to load your game content here
         }
@@ -73,8 +87,59 @@ namespace ShootingGame
                 Exit();
 
             // TODO: Add your update logic here
+            foreach(Enemy e in enemyList){
+                if (e.boundingBox.Intersects(player.boundingBox)){
+                    player.health -= 40;
+                    e.isVisible = false;
+                }
+
+                for(int i = 0; i < e.bulletList.Count(); i++)
+                {
+                    if (player.boundingBox.Intersects(e.bulletList[i].boundingBox))
+                    {
+                        player.health -= enemyBulletDamage;
+                        e.bulletList[i].isVisible = false;  
+                    }
+                }
+
+                for (int i = 0; i < player.bulletList.Count; i++)
+                {
+                    if (player.bulletList[i].boundingBox.Intersects(e.boundingBox))
+                    {
+                        player.bulletList[i].isVisible = false;
+                        e.isVisible = false;
+                    }
+                }
+
+                e.Update(gameTime);
+            }
+            
+            //for each enimie in enemiesList call Enimie.update(gameTime)
+            foreach (Boats b in boatsList)
+            {
+                //check if enimie is colliding with player
+                if (b.boundingBox.Intersects(player.boundingBox))
+                {
+                    b.isVisible = false;
+                }
+
+                for (int i = 0; i < player.bulletList.Count(); i++)
+                {
+                    if (b.boundingBox.Intersects(player.bulletList[i].boundingBox))
+                    {
+                        b.isVisible = false;
+                        player.bulletList[i].isVisible = false;
+                    }
+                }
+
+
+                b.Update(gameTime);
+            }
+            int randY = random.Next(-600, -50);
+            int randX = random.Next(0, 550);
+            LoadBoats(randX,randY);
+            LoadEnemies(randX, randY);
             player.Update(gameTime);
-            enimie.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -89,12 +154,66 @@ namespace ShootingGame
             spriteBatch.Begin();
             
             player.Draw(spriteBatch);
-            enimie.Draw(spriteBatch);
+            foreach (Boats b in boatsList)
+            {
+                b.Draw(spriteBatch);
+            }
+            foreach (Enemy e in enemyList)
+            {
+                e.Draw(spriteBatch);
+            }
             spriteBatch.End();
             
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
+        }
+
+        //load enimie
+        public void LoadBoats(int x, int y) {
+
+            //creating random varibles for the enimie starts position
+            
+
+            //if enimies is less then 5 add a new enimie
+            if (boatsList.Count() < 5)
+            {
+                boatsList.Add(new Boats(Content.Load<Texture2D>("boot"), new Vector2(x, y)));
+            }
+
+            //if any of the enimies are dead or not visible so shall it be removed from the list
+            for (int i = 0; i < boatsList.Count(); i++)
+            {
+                if (!boatsList[i].isVisible)
+                {
+                    boatsList.RemoveAt(i);
+                    i--;
+                }
+            }
+        }
+
+        //load enimie
+        public void LoadEnemies(int x, int y)
+        {
+
+            //creating random varibles for the enimie starts position
+
+
+            //if enimies is less then 5 add a new enimie
+            if (enemyList.Count() < 3)
+            {
+                enemyList.Add(new Enemy(Content.Load<Texture2D>("helicopter2"), new Vector2(x, y), Content.Load<Texture2D>("enemyBullet")));
+            }
+
+            //if any of the enimies are dead or not visible so shall it be removed from the list
+            for (int i = 0; i < enemyList.Count(); i++)
+            {
+                if (!enemyList[i].isVisible)
+                {
+                    enemyList.RemoveAt(i);
+                    i--;
+                }
+            }
         }
     }
 }

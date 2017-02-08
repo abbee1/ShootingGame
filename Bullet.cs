@@ -10,9 +10,9 @@ using Microsoft.Xna.Framework.Input;
 
 namespace ShootingGame
 {
-    class Bullet
+    public class Bullet
     {
-        public Rectangle rec;
+        public Rectangle boundingBox;
         public Texture2D texture;
         public Vector2 position;
         public bool isVisible;

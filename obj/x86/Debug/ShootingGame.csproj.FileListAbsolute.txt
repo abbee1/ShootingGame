@@ -26,3 +26,6 @@ c:\users\albinarvidsson\documents\visual studio 2015\Projects\ShootingGame\Shoot
 c:\users\albinarvidsson\documents\visual studio 2015\Projects\ShootingGame\ShootingGame\bin\Windows\x86\Debug\Content\pirateShip.png
 c:\users\albinarvidsson\documents\visual studio 2015\Projects\ShootingGame\ShootingGame\bin\Windows\x86\Debug\Content\boot.png
 C:\Users\albinarvidsson\documents\visual studio 2015\Projects\ShootingGame\ShootingGame\bin\Windows\x86\Debug\Content\kanonkula2.png
+C:\Users\albinarvidsson\documents\visual studio 2015\Projects\ShootingGame\ShootingGame\bin\Windows\x86\Debug\Content\EnemyBullet.png
+C:\Users\albinarvidsson\documents\visual studio 2015\Projects\ShootingGame\ShootingGame\bin\Windows\x86\Debug\Content\healthbar.png
+C:\Users\albinarvidsson\documents\visual studio 2015\Projects\ShootingGame\ShootingGame\bin\Windows\x86\Debug\Content\helicopter2.png
