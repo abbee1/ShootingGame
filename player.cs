@@ -93,6 +93,7 @@ namespace ShootingGame
             {
                 position.X = position.X - speed;
             }
+
             //check collison with walls
             if (position.X <= 0 )
             {
@@ -110,6 +111,7 @@ namespace ShootingGame
             {
                 position.Y = 600 - texture.Height;
             }
+
         }
 
         //shot method starting position of bullet

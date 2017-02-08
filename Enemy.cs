@@ -18,7 +18,7 @@ namespace ShootingGame
         public int health, speed, bulletDelay, currentDifficulLevel;
         public bool isVisible;
         public List<Bullet> bulletList;
-
+        
         public Enemy(Texture2D newTexture, Vector2 newPosition, Texture2D newBulletTexture)
         {
             bulletList = new List<Bullet>();

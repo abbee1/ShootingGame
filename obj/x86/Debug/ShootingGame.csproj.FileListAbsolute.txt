@@ -29,3 +29,10 @@ C:\Users\albinarvidsson\documents\visual studio 2015\Projects\ShootingGame\Shoot
 C:\Users\albinarvidsson\documents\visual studio 2015\Projects\ShootingGame\ShootingGame\bin\Windows\x86\Debug\Content\EnemyBullet.png
 C:\Users\albinarvidsson\documents\visual studio 2015\Projects\ShootingGame\ShootingGame\bin\Windows\x86\Debug\Content\healthbar.png
 C:\Users\albinarvidsson\documents\visual studio 2015\Projects\ShootingGame\ShootingGame\bin\Windows\x86\Debug\Content\helicopter2.png
+C:\Users\albinarvidsson\documents\visual studio 2015\Projects\ShootingGame\ShootingGame\bin\Windows\x86\Debug\Content\playerScore.xnb
+C:\Users\albinarvidsson\documents\visual studio 2015\Projects\ShootingGame\ShootingGame\bin\Windows\x86\Debug\Content\playerScore
+C:\Users\albinarvidsson\documents\visual studio 2015\Projects\ShootingGame\ShootingGame\bin\Windows\x86\Debug\Content\highscoreBtn.png
+C:\Users\albinarvidsson\documents\visual studio 2015\Projects\ShootingGame\ShootingGame\bin\Windows\x86\Debug\Content\mainMenu.png
+C:\Users\albinarvidsson\documents\visual studio 2015\Projects\ShootingGame\ShootingGame\bin\Windows\x86\Debug\Content\playBtn.png
+C:\Users\albinarvidsson\documents\visual studio 2015\Projects\ShootingGame\ShootingGame\bin\Windows\x86\Debug\Content\QuitBtn.png
+C:\Users\albinarvidsson\documents\visual studio 2015\Projects\ShootingGame\ShootingGame\bin\Windows\x86\Debug\Content\highscore.png

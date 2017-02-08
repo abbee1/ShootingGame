@@ -14,6 +14,13 @@ namespace ShootingGame
     /// </summary>
     public class Game1 : Game
     {
+        public enum State
+        {
+            Menu,
+            Playing,
+            Gameover
+        }
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         //random
@@ -23,11 +30,20 @@ namespace ShootingGame
         Player player = new Player();
         public int enemyBulletDamage;
 
+        //HUD
+        HUD hud = new HUD();
+
         //lists
         //list with boats
         List<Boats> boatsList = new List<Boats>();
         //list with enemy
         List<Enemy> enemyList = new List<Enemy>();
+
+        //set game state
+        State gameStatus = State.Menu;
+
+        cButton btnPlay;
+        cButton btnHighscore;
 
         public Game1()
         {
@@ -37,7 +53,7 @@ namespace ShootingGame
             graphics.PreferredBackBufferWidth = 800;
             this.Window.Title = "Pirate shooting";
             Content.RootDirectory = "Content";
-            enemyBulletDamage = 10;
+            enemyBulletDamage = 1;
         }
 
         /// <summary>
@@ -61,8 +77,13 @@ namespace ShootingGame
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            IsMouseVisible = true;
+            btnPlay = new cButton(Content.Load<Texture2D>("playBtn"), graphics.GraphicsDevice);
+            btnPlay.setPosition(new Vector2(350, 300));
+            btnHighscore = new cButton(Content.Load<Texture2D>("highscoreBtn"), graphics.GraphicsDevice);
+            btnHighscore.setPosition(new Vector2(300, 350));
             player.LoadContent(Content);
+            hud.LoadContent(Content);
 
             // TODO: use this.Content to load your game content here
         }
@@ -85,61 +106,113 @@ namespace ShootingGame
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            MouseState mouse = Mouse.GetState();
 
-            // TODO: Add your update logic here
-            foreach(Enemy e in enemyList){
-                if (e.boundingBox.Intersects(player.boundingBox)){
-                    player.health -= 40;
-                    e.isVisible = false;
-                }
-
-                for(int i = 0; i < e.bulletList.Count(); i++)
-                {
-                    if (player.boundingBox.Intersects(e.bulletList[i].boundingBox))
-                    {
-                        player.health -= enemyBulletDamage;
-                        e.bulletList[i].isVisible = false;  
-                    }
-                }
-
-                for (int i = 0; i < player.bulletList.Count; i++)
-                {
-                    if (player.bulletList[i].boundingBox.Intersects(e.boundingBox))
-                    {
-                        player.bulletList[i].isVisible = false;
-                        e.isVisible = false;
-                    }
-                }
-
-                e.Update(gameTime);
-            }
-            
-            //for each enimie in enemiesList call Enimie.update(gameTime)
-            foreach (Boats b in boatsList)
+            switch (gameStatus)
             {
-                //check if enimie is colliding with player
-                if (b.boundingBox.Intersects(player.boundingBox))
-                {
-                    b.isVisible = false;
-                }
-
-                for (int i = 0; i < player.bulletList.Count(); i++)
-                {
-                    if (b.boundingBox.Intersects(player.bulletList[i].boundingBox))
-                    {
-                        b.isVisible = false;
-                        player.bulletList[i].isVisible = false;
+                case State.Menu:
+                    btnPlay.Update(mouse);
+                    if (btnPlay.isClicked == true) {
+                        gameStatus = State.Playing;
                     }
-                }
+                    if (btnHighscore.isClicked == true)
+                    {
+                        gameStatus = State.Gameover;
+                    }
+                        
+                    break;
+                case State.Playing:
+                    // for each enamy in enemylist check if colliding
+                    foreach (Enemy e in enemyList)
+                    {
+                        //check if enemy collides with player
+                        if (e.boundingBox.Intersects(player.boundingBox))
+                        {
+                            player.health -= 40;
+                            e.isVisible = false;
+                        }
+
+                        //chek if a enemy bullet is colliding with player
+                        for (int i = 0; i < e.bulletList.Count(); i++)
+                        {
+                            if (player.boundingBox.Intersects(e.bulletList[i].boundingBox))
+                            {
+                                player.health -= enemyBulletDamage;
+                                e.bulletList[i].isVisible = false;
+                            }
+                        }
+
+                        //check if a player bullet is hitning enemy
+                        for (int i = 0; i < player.bulletList.Count; i++)
+                        {
+                            if (player.bulletList[i].boundingBox.Intersects(e.boundingBox))
+                            {
+                                hud.playerScore += 20;
+                                player.bulletList[i].isVisible = false;
+                                e.isVisible = false;
+                            }
+                        }
+                        if (e.isVisible)
+                            e.Update(gameTime);
+                    }
+
+                    //for each boat in boatList call boat.update(gameTime)
+                    foreach (Boats b in boatsList)
+                    {
+                        //check if boat is colliding with player
+                        if (b.boundingBox.Intersects(player.boundingBox))
+                        {
+                            b.isVisible = false;
+                        }
+
+                        //check if player bullets colliding with a boat
+                        for (int i = 0; i < player.bulletList.Count(); i++)
+                        {
+                            if (b.boundingBox.Intersects(player.bulletList[i].boundingBox))
+                            {
+                                hud.playerScore += 5;
+                                b.isVisible = false;
+                                player.bulletList[i].isVisible = false;
+                            }
+                        }
 
 
-                b.Update(gameTime);
+                        b.Update(gameTime);
+                    }
+
+                    //getting keyboarde state
+                    KeyboardState keyState = Keyboard.GetState();
+
+                    if (keyState.IsKeyDown(Keys.P))
+                    {
+                        gameStatus = State.Menu;
+                        btnPlay.isClicked = false;
+                    }
+                    if (player.health <=0)
+                    {
+                        gameStatus = State.Gameover;
+                        break;
+                    }
+                    int randY = random.Next(-600, -50);
+                    int randX = random.Next(0, 550);
+                    LoadBoats(randX, randY);
+                    LoadEnemies(randX, randY);
+                    player.Update(gameTime);
+                    //hud.Update(gameTime);
+                    break;
+
+                case State.Gameover:
+                    KeyboardState keyState2 = Keyboard.GetState();
+                    if (keyState2.IsKeyDown(Keys.Enter))
+                    {
+                        gameStatus = State.Menu;
+                        btnPlay.isClicked = false;
+                        reset();
+                    }
+                    break;
             }
-            int randY = random.Next(-600, -50);
-            int randX = random.Next(0, 550);
-            LoadBoats(randX,randY);
-            LoadEnemies(randX, randY);
-            player.Update(gameTime);
+
+           
 
             base.Update(gameTime);
         }
@@ -152,16 +225,32 @@ namespace ShootingGame
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
+            switch (gameStatus)
+            {
+                case State.Menu:
+                    spriteBatch.Draw(Content.Load<Texture2D>("mainMenu"), new Rectangle(0, 0,800,600),Color.White);
+                    btnPlay.Draw(spriteBatch);
+                    btnHighscore.Draw(spriteBatch);
+                    break;
+                case State.Playing:
+                    hud.Draw(spriteBatch);
+                    player.Draw(spriteBatch);
+                    foreach (Boats b in boatsList)
+                    {
+                        b.Draw(spriteBatch);
+                    }
+                    foreach (Enemy e in enemyList)
+                    {
+                        if (e.isVisible)
+                            e.Draw(spriteBatch);
+                    }
+                    break;
+
+                case State.Gameover:
+                    spriteBatch.Draw(Content.Load<Texture2D>("highscore"), new Rectangle(0, 0, 800, 600), Color.White);
+                    break;
+            }
             
-            player.Draw(spriteBatch);
-            foreach (Boats b in boatsList)
-            {
-                b.Draw(spriteBatch);
-            }
-            foreach (Enemy e in enemyList)
-            {
-                e.Draw(spriteBatch);
-            }
             spriteBatch.End();
             
             // TODO: Add your drawing code here
@@ -214,6 +303,15 @@ namespace ShootingGame
                     i--;
                 }
             }
+        }
+
+        public void reset()
+        {
+            player.health = 200;
+            hud.playerScore = 0;
+            enemyList.Clear();
+            boatsList.Clear();
+            player.bulletList.Clear();
         }
     }
 }

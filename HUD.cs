@@ -27,8 +27,23 @@ namespace ShootingGame
             playerScorePos = new Vector2(screenWidth / 2, 50);
         }
 
-        public void LoadContent(ContentManager content)
+        public void LoadContent(ContentManager Content)
         {
+            playerScoreFont = Content.Load<SpriteFont>("playerScore");
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            // get keyborde state
+            KeyboardState keyState = Keyboard.GetState();
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            if (showHud)
+            {
+                spriteBatch.DrawString(playerScoreFont, "Score: " + playerScore, playerScorePos, Color.Black);
+            }
 
         }
     }
