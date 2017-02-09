@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.IO;
+using Microsoft.Xna.Framework.Content;
 
 namespace ShootingGame
 {
@@ -18,11 +20,16 @@ namespace ShootingGame
         {
             Menu,
             Playing,
-            Gameover
+            Gameover,
+            EnterName
         }
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        private SpriteFont sf;
+        private SpriteFont fontScore;
+        private bool runOnce = false;
+
         //random
         Random random = new Random();
         
@@ -33,6 +40,12 @@ namespace ShootingGame
         //HUD
         HUD hud = new HUD();
 
+        //Highscore ska ändras
+        Highscore high = new Highscore();
+
+        //list highscore
+        List<HighscoreItem> highscoreItems = new List<HighscoreItem>();
+
         //lists
         //list with boats
         List<Boats> boatsList = new List<Boats>();
@@ -42,8 +55,10 @@ namespace ShootingGame
         //set game state
         State gameStatus = State.Menu;
 
+        //button
         cButton btnPlay;
         cButton btnHighscore;
+        cButton btnDone;
 
         public Game1()
         {
@@ -81,7 +96,11 @@ namespace ShootingGame
             btnPlay = new cButton(Content.Load<Texture2D>("playBtn"), graphics.GraphicsDevice);
             btnPlay.setPosition(new Vector2(350, 300));
             btnHighscore = new cButton(Content.Load<Texture2D>("highscoreBtn"), graphics.GraphicsDevice);
-            btnHighscore.setPosition(new Vector2(300, 350));
+            btnHighscore.setPosition(new Vector2(350, 350));
+            btnDone = new cButton(Content.Load<Texture2D>("done"), graphics.GraphicsDevice);
+            btnDone.setPosition(new Vector2(350, 400));
+            sf = Content.Load<SpriteFont>("nameEnter");
+            fontScore = Content.Load<SpriteFont>("fontScore");
             player.LoadContent(Content);
             hud.LoadContent(Content);
 
@@ -115,6 +134,7 @@ namespace ShootingGame
                     if (btnPlay.isClicked == true) {
                         gameStatus = State.Playing;
                     }
+                    btnHighscore.Update(mouse);
                     if (btnHighscore.isClicked == true)
                     {
                         gameStatus = State.Gameover;
@@ -122,6 +142,7 @@ namespace ShootingGame
                         
                     break;
                 case State.Playing:
+
                     // for each enamy in enemylist check if colliding
                     foreach (Enemy e in enemyList)
                     {
@@ -163,6 +184,7 @@ namespace ShootingGame
                         if (b.boundingBox.Intersects(player.boundingBox))
                         {
                             b.isVisible = false;
+                            player.health -= 5;
                         }
 
                         //check if player bullets colliding with a boat
@@ -190,7 +212,7 @@ namespace ShootingGame
                     }
                     if (player.health <=0)
                     {
-                        gameStatus = State.Gameover;
+                        gameStatus = State.EnterName;
                         break;
                     }
                     int randY = random.Next(-600, -50);
@@ -207,7 +229,17 @@ namespace ShootingGame
                     {
                         gameStatus = State.Menu;
                         btnPlay.isClicked = false;
+                        btnHighscore.isClicked = false;
                         reset();
+                    }
+                    break;
+                case State.EnterName:
+                    btnDone.Update(mouse);
+                    high.GetKeys();
+                    if (btnDone.isClicked == true)
+                    {
+                        gameStatus = State.Gameover;
+                        Save(high.name, hud.playerScore);
                     }
                     break;
             }
@@ -248,6 +280,19 @@ namespace ShootingGame
 
                 case State.Gameover:
                     spriteBatch.Draw(Content.Load<Texture2D>("highscore"), new Rectangle(0, 0, 800, 600), Color.White);
+                    if(!runOnce)
+                        loadHighscore(fontScore);
+                    runOnce = true;
+                    foreach (HighscoreItem item in highscoreItems)
+                    {
+                        item.Draw(spriteBatch);
+                    }
+                    break;
+                case State.EnterName:
+                    
+                    spriteBatch.Draw(Content.Load<Texture2D>("name"), new Rectangle(0, 0, 800, 600), Color.White);
+                    spriteBatch.DrawString(sf, high.name, new Vector2(305, 325), Color.Red);
+                    btnDone.Draw(spriteBatch);
                     break;
             }
             
@@ -273,7 +318,7 @@ namespace ShootingGame
             //if any of the enimies are dead or not visible so shall it be removed from the list
             for (int i = 0; i < boatsList.Count(); i++)
             {
-                if (!boatsList[i].isVisible)
+                if (!boatsList[i].isVisible || boatsList[i].position.Y == 650)
                 {
                     boatsList.RemoveAt(i);
                     i--;
@@ -284,20 +329,17 @@ namespace ShootingGame
         //load enimie
         public void LoadEnemies(int x, int y)
         {
-
-            //creating random varibles for the enimie starts position
-
-
             //if enimies is less then 5 add a new enimie
             if (enemyList.Count() < 3)
             {
                 enemyList.Add(new Enemy(Content.Load<Texture2D>("helicopter2"), new Vector2(x, y), Content.Load<Texture2D>("enemyBullet")));
             }
-
+            
             //if any of the enimies are dead or not visible so shall it be removed from the list
             for (int i = 0; i < enemyList.Count(); i++)
             {
-                if (!enemyList[i].isVisible)
+                
+                if (!enemyList[i].isVisible || enemyList[i].position.Y == 650)
                 {
                     enemyList.RemoveAt(i);
                     i--;
@@ -312,6 +354,27 @@ namespace ShootingGame
             enemyList.Clear();
             boatsList.Clear();
             player.bulletList.Clear();
+        }
+
+        public void loadHighscore(SpriteFont spriteFont)
+        {
+            int postion = 200;
+            StreamReader sr = new StreamReader("score.txt");
+            string line = "";
+            while ((line = sr.ReadLine()) != null)
+            {
+                string[] args = line.Split('+');
+                highscoreItems.Add(new HighscoreItem(spriteFont, new Vector2(300, postion + 30), args[0], int.Parse(args[1])));
+            }
+
+        }
+        public void Save(string name, int score)
+        {
+            using (StreamWriter sw = new StreamWriter("score.txt"))
+            {
+                sw.WriteLine(name + "+" + score);
+                
+            }
         }
     }
 }

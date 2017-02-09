@@ -105,7 +105,7 @@ namespace ShootingGame
             //reset bullet delay
             if (bulletDelay == 0)
             {
-                bulletDelay = 20;
+                bulletDelay = 40;
             }
         }
 

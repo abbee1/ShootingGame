@@ -19,3 +19,15 @@
 /processorParam:TextureFormat=Compressed
 /build:playerScore
 
+#begin nameEnter
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:nameEnter
+
+#begin fontScore
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:fontScore
+

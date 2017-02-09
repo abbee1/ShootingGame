@@ -36,3 +36,9 @@ C:\Users\albinarvidsson\documents\visual studio 2015\Projects\ShootingGame\Shoot
 C:\Users\albinarvidsson\documents\visual studio 2015\Projects\ShootingGame\ShootingGame\bin\Windows\x86\Debug\Content\playBtn.png
 C:\Users\albinarvidsson\documents\visual studio 2015\Projects\ShootingGame\ShootingGame\bin\Windows\x86\Debug\Content\QuitBtn.png
 C:\Users\albinarvidsson\documents\visual studio 2015\Projects\ShootingGame\ShootingGame\bin\Windows\x86\Debug\Content\highscore.png
+C:\Users\albinarvidsson\documents\visual studio 2015\Projects\ShootingGame\ShootingGame\bin\Windows\x86\Debug\Content\name.png
+C:\Users\albinarvidsson\documents\visual studio 2015\Projects\ShootingGame\ShootingGame\bin\Windows\x86\Debug\Content\nameEnter.xnb
+C:\Users\albinarvidsson\documents\visual studio 2015\Projects\ShootingGame\ShootingGame\bin\Windows\x86\Debug\Content\nameEnter
+C:\Users\albinarvidsson\documents\visual studio 2015\Projects\ShootingGame\ShootingGame\bin\Windows\x86\Debug\Content\done.png
+C:\Users\albinarvidsson\documents\visual studio 2015\Projects\ShootingGame\ShootingGame\bin\Windows\x86\Debug\Content\fontScore.xnb
+C:\Users\albinarvidsson\documents\visual studio 2015\Projects\ShootingGame\ShootingGame\bin\Windows\x86\Debug\Content\fontScore
