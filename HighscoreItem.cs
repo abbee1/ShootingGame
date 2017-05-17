@@ -12,10 +12,10 @@ namespace ShootingGame
 {
     class HighscoreItem
     {
-        private SpriteFont _spriteFont;
-        private Vector2 _position;
-        private string _name;
-        private int _score;
+        public SpriteFont _spriteFont;
+        public Vector2 _position;
+        public string _name;
+        public int _score;
 
         public HighscoreItem(SpriteFont font, Vector2 position, string name, int score)
         {

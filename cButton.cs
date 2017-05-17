@@ -10,10 +10,8 @@ using Microsoft.Xna.Framework.Input;
 
 namespace ShootingGame
 {
-    public class cButton
+    public class cButton : Sprite
     {
-        Texture2D texture;
-        Vector2 position;
         Rectangle rec;
 
         Color colour = new Color(255, 255, 255, 255);

@@ -10,14 +10,8 @@ using Microsoft.Xna.Framework.Input;
 
 namespace ShootingGame
 {
-    public class Boats
+    public class Boats : Sprite
     {
-        public Rectangle boundingBox;
-        public Texture2D texture;
-        public Vector2 position;
-        public int speed;
-
-        public bool isVisible;
         Random random = new Random();
         public float randX, randY;
 

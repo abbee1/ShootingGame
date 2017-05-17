@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/albinarvidsson/documents/visual studio 2015/Projects/ShootingGame/ShootingGame/Content/nameEnter</SourceFile>
+  <SourceFile>C:/Users/albinarvidsson/Documents/Visual Studio 2015/Projects/ShootingGame/ShootingGame/Content/nameEnter</SourceFile>
   <SourceTime>2016-03-30T08:36:08+02:00</SourceTime>
-  <DestFile>C:/Users/albinarvidsson/documents/visual studio 2015/Projects/ShootingGame/ShootingGame/Content/bin/Windows/nameEnter.xnb</DestFile>
-  <DestTime>2017-02-09T19:52:31.3880419+01:00</DestTime>
+  <DestFile>C:/Users/albinarvidsson/Documents/Visual Studio 2015/Projects/ShootingGame/ShootingGame/Content/bin/Windows/nameEnter.xnb</DestFile>
+  <DestTime>2017-05-17T19:57:47.3861317+02:00</DestTime>
   <Importer>FontDescriptionImporter</Importer>
   <ImporterTime>2016-03-30T08:36:08+02:00</ImporterTime>
   <Processor>FontDescriptionProcessor</Processor>

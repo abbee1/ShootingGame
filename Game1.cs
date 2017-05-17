@@ -359,14 +359,20 @@ namespace ShootingGame
         public void loadHighscore(SpriteFont spriteFont)
         {
             int postion = 200;
-            StreamReader sr = new StreamReader("score.txt");
-            string line = "";
-            while ((line = sr.ReadLine()) != null)
+            int i = 0;
+            
+            string[] lines = System.IO.File.ReadAllLines("score.txt");
+            
+            foreach (string line in lines)
             {
-                string[] args = line.Split('+');
-                highscoreItems.Add(new HighscoreItem(spriteFont, new Vector2(300, postion + 30), args[0], int.Parse(args[1])));
+                if (!string.IsNullOrEmpty(line))
+                {
+                    i++;
+                    string[] args = line.Split('+');
+                    highscoreItems.Add(new HighscoreItem(spriteFont, new Vector2(300, postion + 30), i.ToString()+ ": " +args[0] + " ", int.Parse(args[1])));
+                    postion += 20;
+                }
             }
-
         }
         public void Save(string name, int score)
         {

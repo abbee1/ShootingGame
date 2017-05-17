@@ -10,14 +10,8 @@ using Microsoft.Xna.Framework.Input;
 
 namespace ShootingGame
 {
-    public class Bullet
+    public class Bullet : Sprite
     {
-        public Rectangle boundingBox;
-        public Texture2D texture;
-        public Vector2 position;
-        public bool isVisible;
-        public float speed;
-
         //constructor
         public Bullet(Texture2D newTexture, Vector2 position)
         {

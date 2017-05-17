@@ -10,20 +10,8 @@ using Microsoft.Xna.Framework.Input;
 
 namespace ShootingGame
 {
-    public class Player
+    public class Player : Sprite
     {
-        public Texture2D texture, healthTexture;
-        public Texture2D bulletTexture;
-        public Vector2 position, healthPosition;
-        public int speed;
-        public float bulletDelay;
-        public List<Bullet> bulletList;
-        public int health;
-
-        //collision
-        public Rectangle boundingBox, healthRec;
-        public bool isColidning;
-
         //constructor
         public Player()
         {

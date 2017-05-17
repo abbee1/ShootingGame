@@ -4,8 +4,8 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/albinarvidsson/documents/visual studio 2015/Projects/ShootingGame/ShootingGame/Content/playerScore</File>
-    <File>C:/Users/albinarvidsson/documents/visual studio 2015/Projects/ShootingGame/ShootingGame/Content/nameEnter</File>
-    <File>C:/Users/albinarvidsson/documents/visual studio 2015/Projects/ShootingGame/ShootingGame/Content/fontScore</File>
+    <File>C:/Users/albinarvidsson/Documents/Visual Studio 2015/Projects/ShootingGame/ShootingGame/Content/playerScore</File>
+    <File>C:/Users/albinarvidsson/Documents/Visual Studio 2015/Projects/ShootingGame/ShootingGame/Content/nameEnter</File>
+    <File>C:/Users/albinarvidsson/Documents/Visual Studio 2015/Projects/ShootingGame/ShootingGame/Content/fontScore</File>
   </SourceFiles>
 </SourceFileCollection>

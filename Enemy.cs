@@ -10,15 +10,8 @@ using Microsoft.Xna.Framework.Input;
 
 namespace ShootingGame
 {
-    public class Enemy
-    {
-        public Rectangle boundingBox;
-        public Texture2D texture, bulletTexture;
-        public Vector2 position;
-        public int health, speed, bulletDelay, currentDifficulLevel;
-        public bool isVisible;
-        public List<Bullet> bulletList;
-        
+    public class Enemy : Sprite
+    {     
         public Enemy(Texture2D newTexture, Vector2 newPosition, Texture2D newBulletTexture)
         {
             bulletList = new List<Bullet>();

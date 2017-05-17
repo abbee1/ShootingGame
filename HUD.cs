@@ -10,13 +10,8 @@ using Microsoft.Xna.Framework.Input;
 
 namespace ShootingGame
 {
-    public class HUD
+    public class HUD : Sprite
     {
-        public int playerScore, screenWidth, screenHeight;
-        public SpriteFont playerScoreFont;
-        public Vector2 playerScorePos;
-        public bool showHud;
-
         public HUD()
         {
             playerScore = 0;
