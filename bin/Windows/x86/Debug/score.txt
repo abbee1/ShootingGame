@@ -1,3 +1,11 @@
-rightleft+155
-
-rifhtleft+20000
+rightleftenter1 +1
+rightleftenter2 +2
+rightleftenter3 +3
+rightenter+230
+rightenterrightleft+1160
+ right+20
+ rightright+1035
+ leftenter+2040
+ leftenteras+1530
+rightenter+660
+ leftrightenter+1755

@@ -354,6 +354,8 @@ namespace ShootingGame
             enemyList.Clear();
             boatsList.Clear();
             player.bulletList.Clear();
+            runOnce = false;
+            highscoreItems.Clear();
         }
 
         public void loadHighscore(SpriteFont spriteFont)
@@ -362,21 +364,51 @@ namespace ShootingGame
             int i = 0;
             
             string[] lines = System.IO.File.ReadAllLines("score.txt");
-            
+
             foreach (string line in lines)
             {
                 if (!string.IsNullOrEmpty(line))
                 {
-                    i++;
                     string[] args = line.Split('+');
-                    highscoreItems.Add(new HighscoreItem(spriteFont, new Vector2(300, postion + 30), i.ToString()+ ": " +args[0] + " ", int.Parse(args[1])));
-                    postion += 20;
+                    highscoreItems.Add(new HighscoreItem(spriteFont, new Vector2(300, postion + 30), args[0] + " ", int.Parse(args[1])));
                 }
             }
-        }
+            if (highscoreItems.Count == lines.Length)
+            {
+
+                highscoreItems = highscoreItems.OrderByDescending(x => x._score).ToList();
+
+                File.WriteAllText("score2.txt", string.Empty);
+
+                foreach (HighscoreItem highscore in highscoreItems)
+                {
+                    using (StreamWriter sw = new StreamWriter("score2.txt", true))
+                    {
+                        sw.WriteLine(highscore._name + "+" + highscore._score);
+                    }
+                }
+
+                highscoreItems.Clear();
+
+                string[] lines2 = System.IO.File.ReadAllLines("score2.txt");
+
+
+                foreach (string line in lines2)
+                {
+                    if (!string.IsNullOrEmpty(line))
+                    {
+                        i++;
+                        string[] args = line.Split('+');
+                        highscoreItems.Add(new HighscoreItem(spriteFont, new Vector2(300, postion + 30), i.ToString() + args[0] + " ", int.Parse(args[1])));
+                        postion += 20;
+                    }
+                }
+            }
+         }
+
         public void Save(string name, int score)
         {
-            using (StreamWriter sw = new StreamWriter("score.txt"))
+            using (StreamWriter sw = new StreamWriter("score.txt", true))
             {
                 sw.WriteLine(name + "+" + score);
                 

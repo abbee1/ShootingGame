@@ -1,0 +1,11 @@
+ leftenter +2040
+ leftrightenter +1755
+ leftenteras +1530
+rightenterrightleft +1160
+ rightright +1035
+rightenter +660
+rightenter +230
+ right +20
+rightleftenter3  +3
+rightleftenter2  +2
+rightleftenter1  +1
